@@ -122,7 +122,7 @@ fun <T : Comparable<T>> MutableList<T>.mergeSort(lo: Int = 0, hi: Int = this.siz
  *
  * @param max T the upper level for the type we need to sort
  */
-fun MutableList<Int>.countSort(max: Int) {
+fun MutableList<Int>.countingSort(max: Int) {
     val counter = Array<Int>(max + 1) { 0 } // This is because we need an array containing up to max
 
     this.forEach { counter[it]++ }
