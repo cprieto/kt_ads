@@ -14,6 +14,7 @@ So far I have:
    * Merge sort
 - Non-comparison sorts:
    * Counting sort
+   * Radix sort
 
 I am writing this together with some [blog posts](http://cprieto.com/tag/data-structures.html)
 
