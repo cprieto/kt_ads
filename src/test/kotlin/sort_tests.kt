@@ -66,3 +66,20 @@ class RadixSortTests {
     }
 }
 
+class BucketSortTests {
+    private val expected = listOf(137, 243, 371, 442, 598, 637)
+
+    @Test
+    fun `It sorts a list of integers`() {
+        val items = mutableListOf(243, 637, 371, 598, 442, 137)
+        items.bucketSort(637)
+        assertEquals(expected, items)
+    }
+
+    @Test
+    fun `It does nothing to a list of sorted integers`() {
+        val items = expected.toMutableList()
+        items.bucketSort(637)
+        assertEquals(expected, items)
+    }
+}

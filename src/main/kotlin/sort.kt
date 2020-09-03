@@ -65,13 +65,13 @@ fun <T : Comparable<T>> MutableList<T>.insertionSort() {
  * @param low Int starting point for sorting this collection
  * @param high Int end point for sorting this collection
  */
-fun <T: Comparable<T>> MutableList<T>.quickSort(low: Int = 0, high: Int = this.size - 1) {
+fun <T : Comparable<T>> MutableList<T>.quickSort(low: Int = 0, high: Int = this.size - 1) {
     fun partition(low: Int, high: Int): Int {
         val current = this[high]
         var idx = low
 
         for (j in idx until high) {
-            if (this[j] <= current)  {
+            if (this[j] <= current) {
                 this.swap(j, idx).also { idx++ }
             }
         }
@@ -175,7 +175,40 @@ tailrec fun MutableList<Int>.radixSort(digits: Int, current: Int = 0) {
     }
 
     // Replace all the elements in the current mutable list
-    for ((idx, elem) in result.withIndex()) { this[idx] = elem }
+    for ((idx, elem) in result.withIndex()) {
+        this[idx] = elem
+    }
 
     this.radixSort(digits, current + 1)
+}
+
+/**
+ * Sorts a list of integers using bucket sort
+ * this sorting is done **in-place** and specific to the bucket and position function
+ *
+ * @param max Int the max number in the list, used to calculate the position in the buckets
+ * @param buckets Array<MutableList<Int>> buckets to place the elements when classifying
+ * @param position (Int) -> Int function to locate the element in the correct bucket
+ */
+fun MutableList<Int>.bucketSort(
+    max: Int,
+    buckets: Array<MutableList<Int>> = Array(this.size) { mutableListOf() },
+    position: (Int) -> Int = { x: Int -> (x * this.size) / max }
+) {
+    // Place each element in a bucket, this depends of the type of data
+    for (elem in this) {
+        val pos = position(elem) - 1
+        buckets[pos].add(elem)
+    }
+
+    // Now we relocate all the elements back
+    var idx = 0
+    for (bucket in buckets) {
+        if (bucket.isEmpty()) continue
+
+        // We use insert sort because, well, it is finite and simple
+        bucket.insertionSort()
+
+        for (elem in bucket) this[idx++] = elem
+    }
 }
