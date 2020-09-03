@@ -30,7 +30,7 @@ class QuickSortTests: ComparisonSortTests({ l -> l.quickSort() })
 // This needs to be fixed!
 //class MergeSortTests: ComparisonSortTests({ l -> l.mergeSort() })
 
-class CoutingSortTests {
+class CountingSortTests {
     private val expected = listOf(1, 1, 1, 3, 5)
 
     @Test
@@ -44,6 +44,24 @@ class CoutingSortTests {
     fun `It does nothing in an already sorted list of discrete integers`() {
         val items = expected.toMutableList()
         items.countingSort(5)
+        assertEquals(expected, items)
+    }
+}
+
+class RadixSortTests {
+    private val expected = listOf(108, 157, 218, 350, 457, 613)
+
+    @Test
+    fun `It sorts a list of integers`() {
+        val items = mutableListOf(613, 218, 350, 157, 108, 457)
+        items.radixSort(3)
+        assertEquals(expected, items)
+    }
+
+    @Test
+    fun `If the list is already sorted do nothing`() {
+        val items = expected.toMutableList()
+        items.radixSort(3)
         assertEquals(expected, items)
     }
 }

@@ -1,3 +1,5 @@
+import kotlin.math.pow
+
 private fun <T> MutableList<T>.swap(i: Int, j: Int) {
     this[i] = this[j].also { this[j] = this[i] }
 }
@@ -135,4 +137,45 @@ fun MutableList<Int>.countingSort(max: Int) {
             counter[idx]--
         }
     }
+}
+
+/**
+ * Sorts a list of integers using radix sort
+ * to keep the theme this is sorted **in-place** (it could be more efficient if not)
+ *
+ * @param digits Int number of max digits in the list to sort
+ * @param current Int not directly used, the current digit being sorted
+ */
+tailrec fun MutableList<Int>.radixSort(digits: Int, current: Int = 0) {
+    if (digits == current) return
+
+    val result = Array<Int>(this.size) { 0 }
+    val positions = Array<Int>(10) { 0 }
+    val power = 10.0.pow(current)
+    val position = { x: Int -> ((x / power) % 10).toInt() }
+
+    // Normal counting sort
+    for (elem in this) {
+        val pos = position(elem)
+        positions[pos]++
+    }
+
+    // This is the accumulative number for each location
+    for (idx in 1 until positions.size) {
+        positions[idx] += positions[idx - 1]
+    }
+
+    // Now we place each element in the correct place in the result
+    for (idx in this.size - 1 downTo 0) {
+        val elem = this[idx]
+        val pos = position(elem)
+
+        val loc = (positions[pos] - 1).also { positions[pos]-- }
+        result[loc] = elem
+    }
+
+    // Replace all the elements in the current mutable list
+    for ((idx, elem) in result.withIndex()) { this[idx] = elem }
+
+    this.radixSort(digits, current + 1)
 }
