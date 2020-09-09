@@ -1,20 +1,14 @@
 import kotlin.math.pow
 
 fun main(args: Array<String>) {
-    val root = Node(
-        'a',
-        Node('b',
-            Node('d'),
-            Node('e',
-                Node('g'),
-                Node('h')
-            )
-        ),
-        Node('c', right = Node('f'))
-    )
+    val tree = Node(29)
+    tree.insert(15)
+    tree.insert(35)
+    tree.insert(20)
+    tree.insert(25)
 
-    val items = mutableListOf<Char>()
-    root.postOrder { items.add(it) }
+    val items = mutableListOf<Int>()
+    tree.levelOrder { items.add(it) }
 
     println(items)
 }

@@ -74,4 +74,12 @@ class Node<T : Comparable<T>>(
             if (left != null) left?.insert(value) else left = Node(value)
         else if (right != null) right?.insert(value) else right = Node(value)
     }
+
+    fun search(value: T): Boolean {
+        return false
+    }
+
+    fun delete(value: T) {
+
+    }
 }
